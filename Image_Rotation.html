@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Άσκηση 2</title>
+	<meta charset="UTF-8">
+	<style>
+	#wrap {
+		width: 70%;
+		height: 100%;
+		margin: 0 auto;
+		padding: 1em;
+		display: flex;
+		background-color: purple;
+	}
+
+	.img {
+		width: 50%;
+		padding: .2em;
+	}
+
+	button {
+		background-color: purple;
+		border-radius: 4px;
+		border: none;
+		color: white;
+		padding: 10px 16px;
+	}
+	</style>
+</head>
+<body>
+	<div id="wrap">
+		<div class="img">
+			<img src="image1.jpg" alt="Image 1" width="100%" height="100%">
+		</div>
+		<div class="img">
+			<img src="image2.jpg" alt="Image 2" width="100%" height="100%">
+		</div>
+		<div class="img">
+			<img src="image3.jpg" alt="Image 3" width="100%" height="100%">
+		</div>
+		<div class="img">
+			<img src="image4.jpg" alt="Image 4" width="100%" height="100%">
+		</div>
+	</div>
+	<button onclick="rotate()">Rotate</button>
+
+	<script>
+	var pics = document.getElementsByTagName('img');
+	var myList = [];
+
+	function rotate() {
+		myList.unshift(myList.pop());
+		for(var i = 0; i < pics.length; i++) {
+			pics[i].src = myList[i];
+		}
+	}
+
+	function init() {
+		for(var i = 0; i < pics.length; i++) {
+			myList.push(pics[i].src);
+		}
+	}
+
+	init();
+	</script>
+</body>
+</html>
