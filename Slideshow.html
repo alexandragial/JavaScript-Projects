@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Slideshow</title>
+	<meta charset="UTF-8">
+	<style>
+		body {
+			box-sizing: border-box;
+			font: 1em "Helvetica Neue", Helvetica, Arial, sans-serif;
+			margin: 0 auto;
+		}
+
+		#container {
+			width: 40%;
+			margin: auto;
+			text-align: center;
+		}
+
+		#zoom {
+			height: 300px;
+			width: 300px;
+			margin: 1.5em;
+		}
+
+		button {
+			background-color: #218ff0;
+			border-radius: 4px;
+			border: none;
+			color: white;
+			padding: 10px 16px;
+			font-size: .9em;
+			cursor: pointer;
+			disabled: true;
+		}
+
+		button:focus {
+			outline: none;
+			box-shadow: none;
+		}
+
+		#thumbs {
+			margin: 0 0 30px;
+			border: 0;
+			width: 100%;
+			border-collapse: collapse;
+		}
+
+		#thumbs td {
+			background: #eee;
+			vertical-align: middle;
+			text-align: center;
+			padding:  5px;
+		}
+
+		#thumbs img {
+			width: 50px;
+			height: 50px;
+		}
+
+		#thumbs img.active {
+			width: 80px;
+			height: 80px;
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<table id="thumbs">
+			<tr>
+				<td><img class="active" src="image2.jpg" alt="Image 2"></td>
+				<td><img src="image3.jpg" alt="Image 3"></td>
+				<td><img src="image4.jpg" alt="Image 4"></td>
+			</tr>
+		</table>
+		<button id="nextbut" onclick="next(true)">Επόμενη</button>
+		<button id="startbut">Εκκίνηση</button>
+		<div>
+			<img id="zoom" src="image2.jpg" alt="Zoom image">
+		</div>
+	</div>
+	<script>
+		var zoomImg = document.getElementById("zoom");
+		var thumbs = document.getElementById("thumbs").querySelectorAll("img");
+		thumbs.active = 0; //active thumb
+		thumbs.autoHdlr;
+
+		document.addEventListener("click",
+			function() {
+				auto(false); //stop slideshow
+			}
+			);
+
+		document.getElementById('startbut').addEventListener("click",
+			function(e) {
+				auto(true);
+
+				//prevent further propagation of the event capture
+				e.stopPropagation();
+			}
+		);
+
+		function next(bClicked) {
+			if(bClicked) {
+				auto(false);
+			}
+
+			//remove active class thumb
+			thumbs[thumbs.active].classList.remove("active");
+
+			thumbs.active++
+			if(thumbs.active >= thumbs.length) {
+				thumbs.active = 0;
+			}
+
+			//set new thumb active
+			thumbs[thumbs.active].classList.add("active");
+
+			//change zoom image source
+			zoomImg.src = thumbs[thumbs.active].src;
+		}
+
+		function auto(bAuto) {
+			document.getElementById('nextbut').disable = bAuto;
+			document.getElementById('startbut').disabled = bAuto;
+
+			if(bAuto) {
+				thumbs.autoHdlr = setInterval(next, 3000, false);
+			} else {
+				clearInterval(thumbs.autoHdlr);
+			}
+		}
+
+		auto(true);
+	</script>
+</body>
+</html>
