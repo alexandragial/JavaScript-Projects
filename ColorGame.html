@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Color Game</title>
+	<meta charset="UTF-8">
+	<style>
+	body {
+		text-align: center;
+		font: 1em "Helvetica Neue", Helvetica, Arial, sans-serif;
+	}
+
+	button {
+		background-color: #218ff0;
+		border-radius: 4px;
+		border: none;
+		color: white;
+		padding: 10px 16px;
+		font-size: .9em;
+		cursor: pointer;
+	}
+
+	#container {
+		width: 50%;
+		height: 100%;
+		margin: 1em auto;
+	}
+
+	#container:after {
+		visibilty: hidden;
+		display: block;
+		font-size: 0;
+		content: " ";
+		clear: both;
+		height: 0;
+	}
+
+	.cell {
+		float: left;
+		width: 25%;
+		background: #eee;
+		line-height: 5em;
+		border: 1px solid aliceblue;
+		box-sizing: border-box;
+	}
+	</style>
+</head>
+<body>
+<button id="button" onclick="start()">Start</button>
+<div id="container"></div>
+<p id="time">
+	Remaining Time: <span id="countdown">10</span> seconds .
+</p>
+<script>
+	var redColor = 0;
+	var greenColor = 0;
+
+	function fill() {
+		var cell = document.getElementsByClassName('cell');
+		for (var i = 0; i < 16; i++) {
+			cell[i].innerHTML = Math.floor(Math.random() * Math.floor(10));
+		}
+	}
+
+	function start() {
+		fill();
+		var timeleft = 10;
+		var timer = setInterval(
+				function(){
+					timeleft--;
+					document.getElementById("countdown").innerHTML = timeleft;
+					if(timeleft <= 0) {
+						clearInterval(timer);
+						alert('Green: ' + greenColor + '\nRed: ' + redColor);
+						//enable button
+						document.getElementById("button").disabled = false;
+					}
+				},
+				1000);
+		//disable button
+		document.getElementById("button").disabled = true;
+	}
+
+	function createTable() {
+		var container = document.getElementById('container');
+		for (var i = 0; i < 16; i++) {
+			var newDiv = document.createElement("div");
+			newDiv.className = "cell";
+			newDiv.innerHTML = '&nbsp' ;
+			newDiv.addEventListener("click", function() {
+				if(parseInt(this.innerHTML) > 5) {
+					this.style.backgroundColor = 'green';
+					greenColor++;
+				} else {
+					this.style.backgroundColor = 'red';
+					redColor++;
+				}
+				});
+			container.appendChild(newDiv);
+		}
+	}
+
+	createTable();
+</script>
+</body>
+</html>
